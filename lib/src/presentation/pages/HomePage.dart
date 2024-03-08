@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:comicvine/src/presentation/widgets/HorizontalScrollComponent.dart';
 
 class HomePage extends StatelessWidget {
   final String title;
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 32),
+                // margin: EdgeInsets.only(left: 0),
                 child: Text(
                   title,
                   style: TextStyle(
@@ -27,12 +28,35 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Text(
-          'This is the $title page',
-          style: Theme.of(context).textTheme.headline4,
-        ),
+      body: Column(
+        children: [
+          HorizontalScrollComponent(
+            title: 'Comics populaires',
+            cardTitles: [
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+            ],
+          ),
+          HorizontalScrollComponent(
+            title: 'Films populaires',
+            cardTitles: [
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+              'Batman',
+              'Superman',
+            ],
+          ),
+        ]
       ),
     );
   }
