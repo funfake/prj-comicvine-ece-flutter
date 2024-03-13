@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:comicvine/src/presentation/widgets/GeneralLayout.dart';
-import 'package:comicvine/src/presentation/pages/HomePage.dart';
+import 'package:comicvine/src/presentation/screens/MainScreen.dart';
+import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
+import 'package:go_router/go_router.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
+
+/// The route configuration.
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return MainScreen(goRouter: _router);
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'details',
+          builder: (BuildContext context, GoRouterState state) {
+            return DetailsScreen(goRouter: _router, title: "Détails", imageUrl: "https://comicvine.gamespot.com/a/uploads/scale_small/0/4/46617-3824-55260-1-wonder-woman.jpg");
+          },
+        ),
+      ],
+    ),
+  ],
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +32,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'ComicVine',
       theme: ThemeData(
         colorScheme: ColorScheme(
@@ -34,9 +53,7 @@ class MyApp extends StatelessWidget {
         ).apply(bodyColor: Colors.white, displayColor: Colors.white),
         useMaterial3: true,
       ),
-      home: GeneralLayout(
-        content: const HomePage(title: 'Bienvenue !'),
-      ),
+      routerConfig: _router,
     );
   }
 }
