@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
 import 'package:comicvine/src/presentation/sections/HomeSection.dart';
+import 'package:comicvine/src/presentation/sections/ComicsSection.dart';
 
 class MainScreen extends StatefulWidget {
   final GoRouter goRouter;
@@ -41,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
       case AppTabs.home:
         return HomeSection();
       case AppTabs.comics:
-        return const Center(child: Text('Comics'));
+        return ComicsSection();
       case AppTabs.series:
         return const Center(child: Text('Séries'));
       case AppTabs.movies:
