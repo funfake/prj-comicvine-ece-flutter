@@ -1,6 +1,6 @@
+import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
 import 'package:flutter/material.dart';
-import 'package:comicvine/src/presentation/widgets/HorizontalScrollComponent.dart';
-import 'package:comicvine/src/data/models/CardType.dart';
+import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
 
 import 'package:comicvine/src/data/api/comicvine_api.dart';
 import 'package:comicvine/src/data/models/comicvine_model.dart';
@@ -46,11 +46,11 @@ class _ComicsSectionState extends State<ComicsSection> {
         itemCount: (_state as ComicVineSuccessState).response.results.length,
         itemBuilder: (context, index) {
           var issue = (_state as ComicVineSuccessState).response.results[index];
-          return ListTile(
-            title: Text(issue.name ?? 'No name provided'),
-            subtitle: Text(issue.description ?? 'No description provided'),
-            leading: Image.network(issue.image?.mediumUrl ?? 'https://comicvine.gamespot.com/a/uploads/scale_small/11/117763/2403520-ss16.png'),
-            // leading: Image.network(issue.image ?? 'https://comicvine.gamespot.com/a/uploads/scale_small/11/117763/2403520-ss16.png'),
+          return CardComponent(
+            title: issue.name ?? 'No name provided',
+            id: issue.id.toString(),
+            imageUrl: issue.image?.mediumUrl ?? 'https://comicvine.gamespot.com/a/uploads/scale_small/11/117763/2403520-ss16.png',
+            isHorizontal: true,
           );
         },
       )
@@ -78,3 +78,4 @@ class ComicVineErrorState extends ComicVineState {
 
   ComicVineErrorState(this.exception);
 }
+
