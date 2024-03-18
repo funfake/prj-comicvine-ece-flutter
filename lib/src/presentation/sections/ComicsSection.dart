@@ -55,7 +55,7 @@ class _ComicsSectionState extends State<ComicsSection> {
         },
       )
           : _state is ComicVineLoadingState
-          ? const CircularProgressIndicator()
+          ? Center(child: const CircularProgressIndicator())
           : _state is ComicVineErrorState
           ? Text((_state as ComicVineErrorState).exception.toString())
           : Container(),
