@@ -30,14 +30,6 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return MainScreen(goRouter: _router);
       },
-      // routes: <RouteBase>[
-      //   GoRoute(
-      //     path: 'details',
-      //     builder: (BuildContext context, GoRouterState state) {
-      //       return DetailsScreen(goRouter: _router, title: "Détails", imageUrl: "https://comicvine.gamespot.com/a/uploads/scale_small/0/4/46617-3824-55260-1-wonder-woman.jpg");
-      //     },
-      //   ),
-      // ],
     ),
   ],
 );

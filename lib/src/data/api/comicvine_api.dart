@@ -61,9 +61,19 @@ class ComicVineRequests {
   Future<ComicVineIssuesResponse> getIssues() async {
     try {
       var response = await _api.getIssues();
-      // var resultsJson = jsonEncode(response.results.map((issue) => issue.toJson()).toList());
-      // print(resultsJson);
       var filteredResults = response.results.where((issue) => issue.name != null && issue.name!.isNotEmpty).toList();
+
+      // Extract the composed_id from the api_detail_url and add it as a new field
+      for (var issue in filteredResults) {
+        if (issue.api_detail_url == null) {
+          continue;
+        }
+        var match = RegExp(r'(\d+-\d+)').firstMatch(issue.api_detail_url!);
+        if (match != null) {
+          issue.composed_id = match.group(0);
+        }
+      }
+
       return ComicVineIssuesResponse(results: filteredResults);
     } catch (e) {
       print(e);

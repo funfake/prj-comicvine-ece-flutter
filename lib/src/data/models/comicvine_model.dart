@@ -59,6 +59,10 @@ class ComicVineIssueResponse {
 class ComicVineIssue {
   @JsonKey(name: 'id')
   final int? id;
+  @JsonKey(name: 'api_detail_url')
+  final String? api_detail_url;
+  // we will extract the composed id to use as the id for the details screen later
+  String? composed_id;
   @JsonKey(name: 'name')
   final String? name;
   @JsonKey(name: 'description')
@@ -73,7 +77,7 @@ class ComicVineIssue {
   // final String? issueNumber;
 
   // ComicVineIssue(this.id, this.name, this.description, this.volume, this.image, this.coverDate, this.issueNumber);
-  ComicVineIssue(this.id, this.name, this.description, this.image);
+  ComicVineIssue(this.id, this.api_detail_url, this.name, this.description, this.image);
 
   factory ComicVineIssue.fromJson(Map<String, dynamic> json) =>
       _$ComicVineIssueFromJson(json);

@@ -5,6 +5,7 @@ import 'package:comicvine/src/data/api/comicvine_api.dart';
 import 'package:comicvine/src/data/models/comicvine_model.dart';
 import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
 import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
+import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 
 
 class ComicsSection extends StatefulWidget {
@@ -41,7 +42,8 @@ class _ComicsSectionState extends State<ComicsSection> {
           var issue = state.response.results[index];
           return CardComponent(
             title: issue.name ?? 'No name provided',
-            id: issue.id.toString(),
+            composed_id: issue.composed_id.toString(),
+            type: DetailType.issue,
             imageUrl: issue.image?.mediumUrl ?? 'https://comicvine.gamespot.com/a/uploads/scale_small/11/117763/2403520-ss16.png',
             isHorizontal: true,
           );

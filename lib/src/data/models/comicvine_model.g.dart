@@ -59,16 +59,19 @@ Map<String, dynamic> _$ComicVineIssueResponseToJson(
 ComicVineIssue _$ComicVineIssueFromJson(Map<String, dynamic> json) =>
     ComicVineIssue(
       json['id'] as int?,
+      json['api_detail_url'] as String?,
       json['name'] as String?,
       json['description'] as String?,
       json['image'] == null
           ? null
           : ComicVineImage.fromJson(json['image'] as Map<String, dynamic>),
-    );
+    )..composed_id = json['composed_id'] as String?;
 
 Map<String, dynamic> _$ComicVineIssueToJson(ComicVineIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'api_detail_url': instance.api_detail_url,
+      'composed_id': instance.composed_id,
       'name': instance.name,
       'description': instance.description,
       'image': instance.image,

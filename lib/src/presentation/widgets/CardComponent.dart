@@ -5,15 +5,17 @@ import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 class CardComponent extends StatelessWidget {
   final String title;
   final String imageUrl;
-  final String id;
+  final String composed_id;
   final double width;
   final double height;
   final bool isHorizontal;
+  final DetailType type;
 
   CardComponent({
     this.title = '',
     this.imageUrl = '',
-    this.id = '',
+    this.composed_id = '',
+    this.type = DetailType.issue,
     this.width = 150.0,
     this.height = 150.0, // default height
     this.isHorizontal = false,
@@ -26,7 +28,7 @@ class CardComponent extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsScreen(id: id),
+            builder: (context) => DetailsScreen(composed_id: composed_id, type: type),
           ),
         );
       },
