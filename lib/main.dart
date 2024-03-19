@@ -3,8 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:comicvine/src/presentation/screens/MainScreen.dart';
 import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:comicvine/src/data/bloc/comicvine_bloc.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    BlocProvider(
+      create: (context) {
+        // Create the ComicVineBloc
+        ComicVineBloc comicVineBloc = ComicVineBloc();
+        // Add the FetchDataEvent to the ComicVineBloc
+        comicVineBloc.add(FetchDataEvent());
+        // Return the ComicVineBloc
+        return comicVineBloc;
+      },
+      child: const MyApp(),
+    ),
+  );
+}
 
 /// The route configuration.
 final GoRouter _router = GoRouter(
@@ -35,7 +51,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'ComicVine',
       theme: ThemeData(
-        colorScheme: ColorScheme(
+        colorScheme: const ColorScheme(
           background: Color(0xFF15232E),
           onBackground: Colors.white,
           primary: Color(0xFFFF8100),

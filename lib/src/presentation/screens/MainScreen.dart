@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
 import 'package:comicvine/src/presentation/sections/HomeSection.dart';
 import 'package:comicvine/src/presentation/sections/ComicsSection.dart';
 
@@ -18,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Bienvenue !"),
+      // appBar: CustomAppBar(title: "Bienvenue !"),
       body: _getContent(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentTabPosition,

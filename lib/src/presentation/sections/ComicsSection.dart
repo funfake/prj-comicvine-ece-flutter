@@ -1,51 +1,44 @@
-import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
 import 'package:flutter/material.dart';
-import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:comicvine/src/data/bloc/comicvine_bloc.dart';
 import 'package:comicvine/src/data/api/comicvine_api.dart';
 import 'package:comicvine/src/data/models/comicvine_model.dart';
+import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
+import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
+
 
 class ComicsSection extends StatefulWidget {
-  const ComicsSection({super.key});
+  const ComicsSection({Key? key}) : super(key: key);
 
   @override
   _ComicsSectionState createState() => _ComicsSectionState();
 }
 
 class _ComicsSectionState extends State<ComicsSection> {
-  ComicVineState _state = ComicVineLoadingState();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Si on souhaite lancer la requête dès l'ouverture de l'écran, sinon à enlever
-    _sendRequest();
-  }
-
-  Future<void> _sendRequest() async {
-    if (!mounted) return;
-
-    setState(() => _state = ComicVineLoadingState());
-
-    try {
-      ComicVineIssuesResponse response = await ComicVineRequests().getIssues();
-      if (!mounted) return;
-      setState(() => _state = ComicVineSuccessState(response));
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _state = ComicVineErrorState(e));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _state is ComicVineSuccessState
-          ? ListView.builder(
-        itemCount: (_state as ComicVineSuccessState).response.results.length,
+    return BlocBuilder<ComicVineBloc, ComicVineState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: CustomAppBar(title: "Comics les plus populaires"),
+          body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child:
+              _getBody(state),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _getBody(ComicVineState state) {
+    if (state is ComicVineLoadingState) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (state is ComicVineSuccessState) {
+      return ListView.builder(
+        itemCount: state.response.results.length,
         itemBuilder: (context, index) {
-          var issue = (_state as ComicVineSuccessState).response.results[index];
+          var issue = state.response.results[index];
           return CardComponent(
             title: issue.name ?? 'No name provided',
             id: issue.id.toString(),
@@ -53,29 +46,11 @@ class _ComicsSectionState extends State<ComicsSection> {
             isHorizontal: true,
           );
         },
-      )
-          : _state is ComicVineLoadingState
-          ? Center(child: const CircularProgressIndicator())
-          : _state is ComicVineErrorState
-          ? Text((_state as ComicVineErrorState).exception.toString())
-          : Container(),
-    );
+      );
+    } else if (state is ComicVineErrorState) {
+      return Center(child: Text(state.exception.toString()));
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }
-
-sealed class ComicVineState {}
-
-class ComicVineLoadingState extends ComicVineState {}
-
-class ComicVineSuccessState extends ComicVineState {
-  final ComicVineIssuesResponse response;
-
-  ComicVineSuccessState(this.response);
-}
-
-class ComicVineErrorState extends ComicVineState {
-  final dynamic exception;
-
-  ComicVineErrorState(this.exception);
-}
-
