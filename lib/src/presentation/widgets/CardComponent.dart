@@ -22,16 +22,14 @@ class CardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => DetailsScreen(
-      //         detailItem: detailItem,
-      //       ),
-      //     ),
-      //   );
-      // },
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(id: id),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Container(
