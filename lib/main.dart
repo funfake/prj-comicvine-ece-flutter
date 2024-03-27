@@ -4,19 +4,24 @@ import 'package:comicvine/src/presentation/screens/MainScreen.dart';
 import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:comicvine/src/data/bloc/comicvine_bloc.dart';
+import 'package:comicvine/src/data/bloc/issues_bloc.dart';
+import 'package:comicvine/src/data/bloc/movies_bloc.dart';
+import 'package:comicvine/src/data/bloc/series_bloc.dart';
 
 void main() {
   runApp(
-    BlocProvider(
-      create: (context) {
-        // Create the ComicVineBloc
-        ComicVineBloc comicVineBloc = ComicVineBloc();
-        // Add the FetchDataEvent to the ComicVineBloc
-        comicVineBloc.add(FetchDataEvent());
-        // Return the ComicVineBloc
-        return comicVineBloc;
-      },
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<IssuesBloc>(
+          create: (context) => IssuesBloc()..add(FetchIssuesEvent()),
+        ),
+        BlocProvider<MoviesBloc>(
+          create: (context) => MoviesBloc()..add(FetchMoviesEvent()),
+        ),
+        BlocProvider<SeriesBloc>(
+          create: (context) => SeriesBloc()..add(FetchSeriesEvent()),
+        ),
+      ],
       child: const MyApp(),
     ),
   );

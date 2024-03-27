@@ -5,10 +5,9 @@ import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
 enum DetailType { issue, episode, movie }
 
 class DetailsScreen extends StatefulWidget {
-  final String composed_id;
-  final DetailType type;
+  final String api_detail_url;
 
-  const DetailsScreen({Key? key, required this.composed_id, required this.type}) : super(key: key);
+  const DetailsScreen({Key? key, required this.api_detail_url}) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
@@ -23,7 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       appBar: CustomAppBar(title: "Détails"),
       body: Center(
-        child: Text('Détails de l\'${widget.type} avec l\'id ${widget.composed_id}'),
+        child: Text('Détails de ${widget.api_detail_url}'),
       ),
     );
   }

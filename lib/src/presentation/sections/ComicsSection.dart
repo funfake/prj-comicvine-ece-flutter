@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:comicvine/src/data/bloc/comicvine_bloc.dart';
+import 'package:comicvine/src/data/bloc/issues_bloc.dart';
 import 'package:comicvine/src/data/api/comicvine_api.dart';
 import 'package:comicvine/src/data/models/comicvine_model.dart';
-import 'package:comicvine/src/presentation/widgets/CardComponent.dart';
+import 'package:comicvine/src/presentation/widgets/DynamicCardComponent.dart';
 import 'package:comicvine/src/presentation/widgets/CustomAppBar.dart';
 import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 
@@ -18,38 +18,36 @@ class ComicsSection extends StatefulWidget {
 class _ComicsSectionState extends State<ComicsSection> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ComicVineBloc, ComicVineState>(
+    return BlocBuilder<IssuesBloc, IssuesState>(
       builder: (context, state) {
         return Scaffold(
           appBar: CustomAppBar(title: "Comics les plus populaires"),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
             child:
-              _getBody(state),
+            _getBody(state),
           ),
         );
       },
     );
   }
 
-  Widget _getBody(ComicVineState state) {
-    if (state is ComicVineLoadingState) {
+  Widget _getBody(IssuesState state) {
+    if (state is IssuesLoadingState) {
       return const Center(child: CircularProgressIndicator());
-    } else if (state is ComicVineSuccessState) {
+    } else if (state is IssuesSuccessState) {
+      var results = state.response['results'];
       return ListView.builder(
-        itemCount: state.response.results.length,
+        itemCount: results.length,
         itemBuilder: (context, index) {
-          var issue = state.response.results[index];
-          return CardComponent(
-            title: issue.name ?? 'No name provided',
-            composed_id: issue.composed_id.toString(),
-            type: DetailType.issue,
-            imageUrl: issue.image?.mediumUrl ?? 'https://comicvine.gamespot.com/a/uploads/scale_small/11/117763/2403520-ss16.png',
+          var issue = results[index];
+          return DynamicCardComponent(
+            data: issue,
             isHorizontal: true,
           );
         },
       );
-    } else if (state is ComicVineErrorState) {
+    } else if (state is IssuesErrorState) {
       return Center(child: Text(state.exception.toString()));
     } else {
       return const SizedBox.shrink();
