@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:comicvine/src/presentation/screens/MainScreen.dart';
 import 'package:comicvine/src/presentation/screens/DetailsScreen.dart';
 import 'package:go_router/go_router.dart';
@@ -9,22 +11,24 @@ import 'package:comicvine/src/data/bloc/movies_bloc.dart';
 import 'package:comicvine/src/data/bloc/series_bloc.dart';
 
 void main() {
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<IssuesBloc>(
-          create: (context) => IssuesBloc()..add(FetchIssuesEvent()),
-        ),
-        BlocProvider<MoviesBloc>(
-          create: (context) => MoviesBloc()..add(FetchMoviesEvent()),
-        ),
-        BlocProvider<SeriesBloc>(
-          create: (context) => SeriesBloc()..add(FetchSeriesEvent()),
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  initializeDateFormatting('fr_FR', null).then((_) {
+    runApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<IssuesBloc>(
+            create: (context) => IssuesBloc()..add(FetchIssuesEvent()),
+          ),
+          BlocProvider<MoviesBloc>(
+            create: (context) => MoviesBloc()..add(FetchMoviesEvent()),
+          ),
+          BlocProvider<SeriesBloc>(
+            create: (context) => SeriesBloc()..add(FetchSeriesEvent()),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    );
+  });
 }
 
 /// The route configuration.
